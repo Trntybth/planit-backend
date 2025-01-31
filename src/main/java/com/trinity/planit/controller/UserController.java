@@ -13,6 +13,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
     @GetMapping("/{name}")
     public List<User> getUsersByName(@PathVariable String name) {
         return userService.getUsersByName(name);
