@@ -13,5 +13,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "members")
 @JsonInclude(JsonInclude.Include.NON_NULL) // Pre
-public class Member extends User{
+public class Member extends User {
 }

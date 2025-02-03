@@ -27,5 +27,4 @@ public class User {
     @JsonProperty("oAuthid")
     private int oAuthId;
 
-
 }
