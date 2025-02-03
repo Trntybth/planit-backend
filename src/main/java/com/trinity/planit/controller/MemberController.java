@@ -29,19 +29,25 @@ public class MemberController {
         return memberService.getMembersByName(name);
     }
 
+    @GetMapping("/{username}")
+    public List<Member> getMembersByUsername(@PathVariable String username) {
+        return memberService.getMembersByUsername(username);
+    }
+
     @PostMapping
     public Member addMember(@RequestBody Member member) {
         return memberService.addMember(member);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMember(@PathVariable String id) {
-        if (memberService.deleteMemberById(id)) {
+    @DeleteMapping("/{username}")
+    public ResponseEntity<String> deleteMemberByUsername(@PathVariable String username) {
+        if (memberService.deleteMemberByUsername(username)) {
             return ResponseEntity.ok("Member deleted successfully.");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found.");
         }
     }
+
 }
 
 

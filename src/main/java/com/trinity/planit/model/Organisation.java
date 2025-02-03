@@ -13,4 +13,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "organisations")
 @JsonInclude(JsonInclude.Include.NON_NULL) // Pre
 public class Organisation extends User {
+
 }
