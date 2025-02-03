@@ -28,13 +28,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public boolean deleteMemberByUsername(String username) {
-        if (memberRepository.existsByUsername(username)) {
-            memberRepository.deleteByUsername(username);
-            return true;
-        }
-        return false;
-    }
+
 
 
 }
