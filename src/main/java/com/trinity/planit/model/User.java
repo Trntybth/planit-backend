@@ -21,6 +21,9 @@ public abstract class User {
     @Id
     private String id;
 
+    @JsonProperty("username")
+    private String username;
+
     @JsonProperty("name")
     private String name;
 
