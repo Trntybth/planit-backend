@@ -24,7 +24,8 @@ public class User {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("oAuthid")
-    private int oAuthId;
+    @JsonProperty("phone")
+    private String phone;
+
 
 }
