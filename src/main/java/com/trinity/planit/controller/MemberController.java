@@ -18,7 +18,7 @@ public class MemberController {
         return memberService.getAllMembers();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public List<Member> getMembersByName(@PathVariable String name) {
         return memberService.getMembersByName(name);
     }
