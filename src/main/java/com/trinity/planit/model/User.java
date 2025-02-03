@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document(collection = "users")
 @JsonInclude(JsonInclude.Include.NON_NULL) // Prevents empty JSON responses
-public class User {
+public abstract class User {
 
     @Id
     private String id;

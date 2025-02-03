@@ -1,9 +1,7 @@
 package com.trinity.planit.service;
 
 import com.trinity.planit.model.Member;
-import com.trinity.planit.model.User;
 import com.trinity.planit.repository.MemberRepository;
-import com.trinity.planit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

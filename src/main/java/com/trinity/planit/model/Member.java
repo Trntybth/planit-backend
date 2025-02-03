@@ -21,5 +21,4 @@ public class Member extends User {
     @JsonProperty("eventsList")
     private List<Event> eventsList;
 
-
 }
