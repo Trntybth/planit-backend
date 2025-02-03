@@ -20,15 +20,13 @@ public class MemberService {
         return memberRepository.findByName(name);
     }
 
-    public List<Member> getMembersByUsername(String username) {
-        return memberRepository.findByName(username);
+    public Member getMemberByUsername(String username) {
+        return memberRepository.findByUsername(username);
     }
 
     public Member addMember(Member member) {
         return memberRepository.save(member);
     }
-
-
 
 
 }

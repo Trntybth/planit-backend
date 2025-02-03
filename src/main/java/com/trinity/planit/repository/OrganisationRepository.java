@@ -1,6 +1,7 @@
 package com.trinity.planit.repository;
 
 import com.trinity.planit.model.Member;
+import com.trinity.planit.model.Organisation;
 import com.trinity.planit.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -11,4 +12,6 @@ public interface OrganisationRepository extends MongoRepository<Member, String> 
     boolean existsByUsername(String username);
 
     void deleteByUsername(String username);
+
+    Organisation findByUsername(String username);
 }
