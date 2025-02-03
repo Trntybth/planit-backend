@@ -23,4 +23,13 @@ public class MemberService {
     public Member addMember(Member member) {
         return memberRepository.save(member);
     }
+
+    public boolean deleteMemberById(String id) {
+        if (memberRepository.existsById(id)) {
+            memberRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }
