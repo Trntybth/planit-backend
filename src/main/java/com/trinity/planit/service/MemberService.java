@@ -14,15 +14,15 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public List<Member> getAllUsers() {
+    public List<Member> getAllMembers() {
         return memberRepository.findAll();
     }
 
-    public List<Member> getUsersByName(String name) {
+    public List<Member> getMembersByName(String name) {
         return memberRepository.findByName(name);
     }
 
-    public User addMember(Member member) {
+    public Member addMember(Member member) {
         return memberRepository.save(member);
     }
 }
