@@ -24,7 +24,8 @@ public class User {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("age")
-    private int age;
+    @JsonProperty("oAuthid")
+    private int oAuthId;
+
 
 }
