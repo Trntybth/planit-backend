@@ -21,7 +21,4 @@ public class Organisation extends User {
     @JsonProperty("eventsCreated")
     private List<Event> eventsCreated;
 
-    @JsonProperty("contactEmail")
-    private String contactEmail;
-
 }

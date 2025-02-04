@@ -26,6 +26,9 @@ public abstract class User {
     @JsonProperty("phone")
     private String phone;
 
+    @JsonProperty("contactEmail")
+    private String contactEmail;
+
     //getters and setters
     public String getUsername() {
         return username;
@@ -49,6 +52,13 @@ public abstract class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
     }
 
 }

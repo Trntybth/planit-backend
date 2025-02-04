@@ -35,15 +35,25 @@ public class MemberService {
         if (existingMember != null) {
             boolean updated = false; // Track if any updates were made
 
+            // Update name if provided
             if (updatedMember.getName() != null && !updatedMember.getName().isBlank()) {
                 existingMember.setName(updatedMember.getName());
                 updated = true;
             }
+
+            // Update phone if provided
             if (updatedMember.getPhone() != null && !updatedMember.getPhone().isBlank()) {
                 existingMember.setPhone(updatedMember.getPhone());
                 updated = true;
             }
 
+            // Update contactEmail if provided
+            if (updatedMember.getContactEmail() != null && !updatedMember.getContactEmail().isBlank()) {
+                existingMember.setContactEmail(updatedMember.getContactEmail());
+                updated = true;
+            }
+
+            // Save and return updated member if any update occurred
             if (updated) {
                 return memberRepository.save(existingMember);
             } else {
@@ -53,6 +63,7 @@ public class MemberService {
 
         throw new NoSuchElementException("Member not found with username: " + username);
     }
+
 
 
 

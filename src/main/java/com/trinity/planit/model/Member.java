@@ -10,16 +10,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "members")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Member extends User {
 
+    public List<Event> getEventsList() {
+        return eventsList;
+    }
+
+    public void setEventsList(List<Event> eventsList) {
+        this.eventsList = eventsList;
+    }
+
     @JsonProperty("eventsList")
     private List<Event> eventsList;
-
 
 }
