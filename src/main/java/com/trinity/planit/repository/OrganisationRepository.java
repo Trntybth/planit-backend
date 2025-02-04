@@ -7,11 +7,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface OrganisationRepository extends MongoRepository<Member, String> {
+public interface OrganisationRepository extends MongoRepository<Organisation, String> {
 
     boolean existsByUsername(String username);
 
     void deleteByUsername(String username);
 
     Organisation findByUsername(String username);
+
+    List<Organisation> findByName(String name);
 }
