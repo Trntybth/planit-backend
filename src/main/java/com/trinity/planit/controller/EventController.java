@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/events")
@@ -38,5 +39,15 @@ public class EventController {
     public ResponseEntity<Event> createEvent(@RequestBody Event newEvent) {
         Event createdEvent = eventService.createEvent(newEvent); // Delegate to service layer
         return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
+    }
+
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable String eventId) {
+        try {
+            eventService.deleteEvent(eventId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();  // 204 No Content for successful deletion
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  // 404 Not Found if event doesn't exist
+        }
     }
 }

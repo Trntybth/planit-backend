@@ -20,6 +20,7 @@ public class EventService {
         Optional<Event> eventOptional = eventRepository.findByName(name);
         return eventOptional.orElseThrow(() -> new NoSuchElementException("Event not found with name: " + name));
     }
+
     public List<Event> getAllEvents() {
         return eventRepository.findAll();  // Retrieves all events from the database
     }
@@ -27,5 +28,12 @@ public class EventService {
     public Event createEvent(Event newEvent) {
         // Save the new event to the repository (MongoDB)
         return eventRepository.save(newEvent);
+    }
+
+    public void deleteEvent(String eventId) {
+        Event existingEvent = eventRepository.findById(eventId).orElseThrow(() ->
+                new NoSuchElementException("Event not found with ID: " + eventId)
+        );
+        eventRepository.delete(existingEvent);  // Deletes the event from the repository
     }
 }

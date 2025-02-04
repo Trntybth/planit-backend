@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL) // Pre
 public class Event {
     @Id
-    private String id;
+    private ObjectId id;
 
     @JsonProperty("name")
     private String name;
