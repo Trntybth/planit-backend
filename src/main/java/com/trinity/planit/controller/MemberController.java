@@ -3,6 +3,8 @@ package com.trinity.planit.controller;
 import com.trinity.planit.model.Member;
 import com.trinity.planit.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +34,18 @@ public class MemberController {
     public Member addMember(@RequestBody Member member) {
         return memberService.addMember(member);
     }
+
+    @PutMapping("/{username}")
+    public ResponseEntity<Member> updateMember(@PathVariable String username, @RequestBody Member updatedMember) {
+        Member member = memberService.updateMember(username, updatedMember);
+        if (member != null) {
+            return ResponseEntity.ok(member);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+    }
+
 
 }
 

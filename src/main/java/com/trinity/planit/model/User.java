@@ -3,15 +3,11 @@ package com.trinity.planit.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "users")
@@ -30,5 +26,29 @@ public abstract class User {
     @JsonProperty("phone")
     private String phone;
 
+    //getters and setters
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
 }

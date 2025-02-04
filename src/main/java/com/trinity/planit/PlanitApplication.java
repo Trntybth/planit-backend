@@ -8,6 +8,8 @@ public class PlanitApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PlanitApplication.class, args);
+
+
 	}
 
 }

@@ -15,10 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "members")
-@JsonInclude(JsonInclude.Include.NON_NULL) // Pre
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Member extends User {
 
     @JsonProperty("eventsList")
     private List<Event> eventsList;
+
 
 }
