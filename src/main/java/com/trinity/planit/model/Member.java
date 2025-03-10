@@ -17,6 +17,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Member extends User {
 
+    // google auth constructor
+    public Member(String email, String name, String picture) {
+    }
+
     public List<Event> getEventsList() {
         return eventsList;
     }

@@ -55,7 +55,38 @@ public class UserService {
 
         return null; // return null if user is not found
     }
+    public Organisation findOrCreateOrganisation(String email, String name, String picture) {
+        // Check if the user already exists in the database
+        Organisation existingUser = findOrganisationByEmail(email);
+        if (existingUser != null) {
+            return existingUser;
+        } else {
+            // Create and return a new Organisation
+            // Optionally save to the database here
+            return new Organisation(email, name, picture);
+        }
+    }
 
+    public Member findOrCreateMember(String email, String name, String picture) {
+        // Check if the user already exists in the database
+        Member existingUser = findMemberByEmail(email);
+        if (existingUser != null) {
+            return existingUser;
+        } else {
+            // Create and return a new Member
+            // Optionally save to the database here
+            return new Member(email, name, picture);
+        }
+    }
+    // Example methods to find users by email (you can replace this with actual database queries)
+    private Organisation findOrganisationByEmail(String email) {
+        // Placeholder for actual database lookup
+        return null; // Return null if not found
+    }
 
-
+    private Member findMemberByEmail(String email) {
+        // Placeholder for actual database lookup
+        return null; // Return null if not found
+    }
+}
 }

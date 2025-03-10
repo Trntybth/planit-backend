@@ -18,6 +18,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL) // Pre
 public class Organisation extends User {
 
+    public Organisation(String email, String name, String picture) {
+    }
+
     @JsonProperty("eventsCreated")
     private List<Event> eventsCreated;
 
