@@ -44,11 +44,6 @@ public class OrganisationService {
             updated = true;
         }
 
-        // Update phone if provided
-        if (updatedOrganisation.getPhone() != null && !updatedOrganisation.getPhone().isBlank()) {
-            existingOrganisation.setPhone(updatedOrganisation.getPhone());
-            updated = true;
-        }
 
         // Update contactEmail if provided
         if (updatedOrganisation.getContactEmail() != null && !updatedOrganisation.getContactEmail().isBlank()) {

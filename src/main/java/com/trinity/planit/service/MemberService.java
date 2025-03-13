@@ -41,11 +41,6 @@ public class MemberService {
                 updated = true;
             }
 
-            // Update phone if provided
-            if (updatedMember.getPhone() != null && !updatedMember.getPhone().isBlank()) {
-                existingMember.setPhone(updatedMember.getPhone());
-                updated = true;
-            }
 
             // Update contactEmail if provided
             if (updatedMember.getContactEmail() != null && !updatedMember.getContactEmail().isBlank()) {
