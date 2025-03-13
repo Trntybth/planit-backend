@@ -17,8 +17,13 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Member extends User {
 
-    // google auth constructor
+    // Google auth constructor to create Member object using Google Sign-In info
     public Member(String email, String name, String picture) {
+        // Populate fields from Google Sign-In information
+        this.setContactEmail(email);
+        this.setName(name);
+        this.setUsername(generateUsername(email)); // You can create a default username based on email or some logic
+        this.setPhone(null); // Phone could be null initially, or you can set a default if needed
     }
 
     public List<Event> getEventsList() {
@@ -32,4 +37,8 @@ public class Member extends User {
     @JsonProperty("eventsList")
     private List<Event> eventsList;
 
+    // generate a random username
+    private String generateUsername(String email) {
+        return email != null ? email.split("@")[0] : "guest";
+    }
 }
