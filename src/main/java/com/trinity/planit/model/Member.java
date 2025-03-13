@@ -23,6 +23,7 @@ public class Member extends User {
         this.setContactEmail(email);
         this.setName(name);
         this.setUsername(generateUsername(email)); // You can create a default username based on email or some logic
+        this.setUserType("Member");
     }
 
     public List<Event> getEventsList() {

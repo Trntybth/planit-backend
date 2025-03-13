@@ -23,9 +23,15 @@ public abstract class User {
     @JsonProperty("name")
     private String name;
 
-
     @JsonProperty("contactEmail")
     private String contactEmail;
+
+    @JsonProperty("userType")
+    private String userType;
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
     //getters and setters
     public String getUsername() {

@@ -15,13 +15,32 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "organisations")
-@JsonInclude(JsonInclude.Include.NON_NULL) // Pre
-public class Organisation extends User {
+@JsonInclude(JsonInclude.Include.NON_NULL)
 
-    public Organisation(String email, String name, String picture) {
+    public class Organisation extends User {
+
+        @JsonProperty("eventsCreated")
+        private List<Event> eventsCreated;
+
+        // Google auth constructor to create Organisation object using Google Sign-In info
+        public Organisation(String email, String name, String picture) {
+            // Populate fields from Google Sign-In information
+            this.setContactEmail(email);
+            this.setName(name);
+            this.setUsername(generateUsername(email));
+            this.setUserType("Organisation");
+        }
+
+        // Getter and Setter for eventsCreated
+        public List<Event> getEventsCreated() {
+            return eventsCreated;
+        }
+
+        public void setEventsCreated(List<Event> eventsCreated) {
+            this.eventsCreated = eventsCreated;
+        }
+
+    private String generateUsername(String email) {
+        return email != null ? email.split("@")[0] : "guest";
     }
-
-    @JsonProperty("eventsCreated")
-    private List<Event> eventsCreated;
-
-}
+    }
