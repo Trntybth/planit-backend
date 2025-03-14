@@ -9,6 +9,7 @@ import com.trinity.planit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -37,6 +38,10 @@ public class UserService {
         }
 
         return false;  // return false if neither was found
+    }
+
+    public List<User> findAllUsers(){
+        return userRepository.findAll();
     }
 
     // find user for either organisation or member
