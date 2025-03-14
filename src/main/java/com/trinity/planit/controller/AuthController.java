@@ -33,7 +33,7 @@ public class AuthController {
                     new NetHttpTransport(),
                     JacksonFactory.getDefaultInstance()
             )
-                    .setAudience(Collections.singletonList("YOUR_WEB_CLIENT_ID"))
+                    .setAudience(Collections.singletonList("898751084700-cc0f2pdg3ucfjkm3egko17q5cn0h7qpa.apps.googleusercontent.com"))
                     .build();
 
             GoogleIdToken googleIdToken = verifier.verify(authRequest.getIdToken());
