@@ -25,6 +25,7 @@ public class Event {
     private String description;
 
     @JsonProperty("location")
+
     private String location;
 
     @JsonProperty("creator")

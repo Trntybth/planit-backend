@@ -3,11 +3,10 @@ package com.trinity.planit.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,13 +17,18 @@ import java.util.List;
 public class Member extends User {
 
     // Google auth constructor to create Member object using Google Sign-In info
-    public Member(String email, String name, String picture) {
+    public Member(String username, String email, String name) {
         // Populate fields from Google Sign-In information
-        this.setContactEmail(email);
-        this.setName(name);
-        this.setUsername(generateUsername(email)); // You can create a default username based on email or some logic
-        this.setUserType("Member");
+        this.setUsername(username);  // Set the username from user input in the Android app
+        this.setEmail(email); // Set the email from Google
+        this.setName(name);           // Set the name from Google
+        this.setUserType("Member");   // Set user type to "Member"
+
+        // Initialize the eventsList as an empty list
+        this.eventsList = new ArrayList<>();  // Initialize as ArrayList<Event>
     }
+    @JsonProperty("eventsList")
+    private List<Event> eventsList;
 
     public List<Event> getEventsList() {
         return eventsList;
@@ -34,11 +38,4 @@ public class Member extends User {
         this.eventsList = eventsList;
     }
 
-    @JsonProperty("eventsList")
-    private List<Event> eventsList;
-
-    // generate a random username
-    private String generateUsername(String email) {
-        return email != null ? email.split("@")[0] : "guest";
-    }
 }

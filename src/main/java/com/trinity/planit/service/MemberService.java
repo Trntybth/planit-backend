@@ -43,8 +43,8 @@ public class MemberService {
 
 
             // Update contactEmail if provided
-            if (updatedMember.getContactEmail() != null && !updatedMember.getContactEmail().isBlank()) {
-                existingMember.setContactEmail(updatedMember.getContactEmail());
+            if (updatedMember.getEmail() != null && !updatedMember.getEmail().isBlank()) {
+                existingMember.setEmail(updatedMember.getEmail());
                 updated = true;
             }
 

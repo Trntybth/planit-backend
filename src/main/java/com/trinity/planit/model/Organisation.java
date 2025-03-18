@@ -23,12 +23,15 @@ import java.util.List;
         private List<Event> eventsCreated;
 
         // Google auth constructor to create Organisation object using Google Sign-In info
-        public Organisation(String email, String name, String picture) {
+        public Organisation(String username, String email, String name) {
             // Populate fields from Google Sign-In information
-            this.setContactEmail(email);
-            this.setName(name);
-            this.setUsername(generateUsername(email));
-            this.setUserType("Organisation");
+            this.setUsername(username);      // Set the username from user input in the Android app
+            this.setEmail(email);     // Set the email from Google
+            this.setName(name);              // Set the name from Google
+            this.setUserType("Organisation");  // Set user type to "Organisation"
+
+            // Initialize the eventsCreated list as an empty list
+            this.eventsCreated = new ArrayList<>();  // Initialize as ArrayList<Event>
         }
 
         // Getter and Setter for eventsCreated

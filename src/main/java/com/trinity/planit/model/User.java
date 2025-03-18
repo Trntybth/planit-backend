@@ -23,8 +23,8 @@ public abstract class User {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("contactEmail")
-    private String contactEmail;
+    @JsonProperty("email")
+    private String email;
 
     @JsonProperty("userType")
     private String userType;
@@ -50,12 +50,12 @@ public abstract class User {
         this.name = name;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

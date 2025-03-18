@@ -1,6 +1,7 @@
 package com.trinity.planit.controller;
 
 import com.trinity.planit.model.User;
+import com.trinity.planit.repository.UserRepository;
 import com.trinity.planit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping
     public ResponseEntity<List<User>> findAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
-
 
     // class for finding User of any type
     @GetMapping("/{username}")
@@ -41,5 +44,10 @@ public class UserController {
         }
     }
 
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> checkUserExists(@RequestParam("email") String email) {
+        boolean exists = userRepository.existsByEmail(email);
+        return ResponseEntity.ok(exists);
+    }
 
 }

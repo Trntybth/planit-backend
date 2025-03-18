@@ -46,8 +46,8 @@ public class OrganisationService {
 
 
         // Update contactEmail if provided
-        if (updatedOrganisation.getContactEmail() != null && !updatedOrganisation.getContactEmail().isBlank()) {
-            existingOrganisation.setContactEmail(updatedOrganisation.getContactEmail());
+        if (updatedOrganisation.getEmail() != null && !updatedOrganisation.getEmail().isBlank()) {
+            existingOrganisation.setEmail(updatedOrganisation.getEmail());
             updated = true;
         }
 
