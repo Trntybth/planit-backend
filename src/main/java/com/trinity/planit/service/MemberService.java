@@ -29,6 +29,8 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+
+
     public Member updateMember(String username, Member updatedMember) {
         Member existingMember = memberRepository.findByUsername(username);
 

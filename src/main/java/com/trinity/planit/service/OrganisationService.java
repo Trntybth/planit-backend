@@ -20,14 +20,15 @@ public class OrganisationService {
         return organisationRepository.findByName(name);
     }
 
-    public Organisation getOrganisationByUsername(String username) {
-        return organisationRepository.findByUsername(username);
-    }
+
 
     public Organisation addOrganisation(Organisation organisation) {
         return organisationRepository.save(organisation);
     }
 
+    public Organisation getOrganisationByUsername(String username) {
+        return organisationRepository.findByUsername(username);
+    }
 
     public Organisation updateOrganisationByUsername(String username, Organisation updatedOrganisation) {
         Organisation existingOrganisation = organisationRepository.findByUsername(username);
@@ -50,6 +51,7 @@ public class OrganisationService {
             existingOrganisation.setEmail(updatedOrganisation.getEmail());
             updated = true;
         }
+
 
         // Save and return updated organisation if any update occurred
         if (updated) {

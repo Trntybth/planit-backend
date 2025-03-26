@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -32,18 +33,26 @@ public class Event {
     private Organisation creator;
 
     @JsonProperty("date")
-    private LocalDate date;
+    private String date;
 
     @JsonProperty("attendees")
     private List<Member> attendees;
 
+    public Event(String name, String description, String location, Organisation creator, String date) {
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.creator = creator;
+        this.date = date;
+        this.attendees = new ArrayList<>(); // Initialize with an empty ArrayList
+    }
 
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

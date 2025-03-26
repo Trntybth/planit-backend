@@ -14,4 +14,6 @@ public interface MemberRepository extends MongoRepository<Member, String> {
     void deleteByUsername(String username);
 
     Member findByUsername(String username);
+
+    Member findByEmail(String email);
 }

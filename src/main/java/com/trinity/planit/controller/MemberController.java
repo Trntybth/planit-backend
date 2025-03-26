@@ -20,7 +20,7 @@ public class MemberController {
         return memberService.getAllMembers();
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     public List<Member> getMembersByName(@PathVariable String name) {
         return memberService.getMembersByName(name);
     }
@@ -34,6 +34,7 @@ public class MemberController {
     public Member addMember(@RequestBody Member member) {
         return memberService.addMember(member);
     }
+
 
     @PutMapping("/{username}")
     public ResponseEntity<Member> updateMember(@PathVariable String username, @RequestBody Member updatedMember) {

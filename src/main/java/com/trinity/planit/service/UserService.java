@@ -40,7 +40,7 @@ public class UserService {
         return false;  // return false if neither was found
     }
 
-    public List<User> findAllUsers(){
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
@@ -60,6 +60,7 @@ public class UserService {
 
         return null; // return null if user is not found
     }
+
     public Organisation findOrCreateOrganisation(String email, String name, String picture) {
         // Check if the user already exists in the database
         Organisation existingUser = findOrganisationByEmail(email);
@@ -83,6 +84,7 @@ public class UserService {
             return new Member(email, name, picture);
         }
     }
+
     // Example methods to find users by email (you can replace this with actual database queries)
     private Organisation findOrganisationByEmail(String email) {
         // Placeholder for actual database lookup
@@ -92,5 +94,22 @@ public class UserService {
     private Member findMemberByEmail(String email) {
         // Placeholder for actual database lookup
         return null; // Return null if not found
+    }
+
+    public User getUserByEmail(String email) {
+        // Try to find the member first
+        Member member = memberRepository.findByEmail(email);
+        if (member != null) {
+            return member;  // Return member if found
+        }
+
+        // If no member, try to find the organisation
+        Organisation organisation = organisationRepository.findByEmail(email);
+        if (organisation != null) {
+            return organisation;  // Return organisation if found
+        }
+
+        // If no user found, return null (or handle differently if needed)
+        return null;
     }
 }

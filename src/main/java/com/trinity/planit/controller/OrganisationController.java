@@ -30,6 +30,7 @@ public class OrganisationController {
         return organisationService.getOrganisationByUsername(username);
     }
 
+
     @PostMapping
     public Organisation addOrganisation(@RequestBody Organisation organisation) {
         return organisationService.addOrganisation(organisation);

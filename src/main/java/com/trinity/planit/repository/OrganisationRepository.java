@@ -16,4 +16,7 @@ public interface OrganisationRepository extends MongoRepository<Organisation, St
     Organisation findByUsername(String username);
 
     List<Organisation> findByName(String name);
+
+
+    Organisation findByEmail(String email);
 }

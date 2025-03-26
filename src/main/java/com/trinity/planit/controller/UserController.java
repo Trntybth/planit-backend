@@ -44,8 +44,20 @@ public class UserController {
         }
     }
 
+    @GetMapping("/email/{email}")
+    public User getUserByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email);
+    }
+
+
     @GetMapping("/exists")
     public ResponseEntity<Boolean> checkUserExists(@RequestParam("email") String email) {
+        boolean exists = userRepository.existsByEmail(email);
+        return ResponseEntity.ok(exists);
+    }
+
+    @PostMapping("/checkEmailExists")
+    public ResponseEntity<Boolean> checkEmailExists(@RequestBody String email) {
         boolean exists = userRepository.existsByEmail(email);
         return ResponseEntity.ok(exists);
     }
