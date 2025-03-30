@@ -38,4 +38,5 @@ public class Member extends User {
         this.eventsList = eventsList;
     }
 
+
 }

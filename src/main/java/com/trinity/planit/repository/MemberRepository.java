@@ -9,11 +9,13 @@ import java.util.List;
 public interface MemberRepository extends MongoRepository<Member, String> {
     List<Member> findByName(String name);
 
-    boolean existsByUsername(String username);
 
     void deleteByUsername(String username);
 
     Member findByUsername(String username);
 
     Member findByEmail(String email);
+
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface OrganisationRepository extends MongoRepository<Organisation, String> {
 
-    boolean existsByUsername(String username);
 
     void deleteByUsername(String username);
 
@@ -17,6 +16,8 @@ public interface OrganisationRepository extends MongoRepository<Organisation, St
 
     List<Organisation> findByName(String name);
 
-
     Organisation findByEmail(String email);
+
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
 }
