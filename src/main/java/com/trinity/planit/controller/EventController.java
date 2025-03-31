@@ -49,6 +49,18 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
     }
 
+    // PUT method to update an existing event
+    @PutMapping("/{eventId}")
+    public ResponseEntity<Event> updateEvent(@PathVariable String eventId, @RequestBody Event updatedEvent) {
+        try {
+            // Update event with the given eventId
+            Event event = eventService.updateEvent(eventId, updatedEvent);
+            return ResponseEntity.ok(event);  // Returns the updated event
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  // 404 Not Found if event doesn't exist
+        }
+    }
+
     @DeleteMapping("/{eventId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable String eventId) {
         try {

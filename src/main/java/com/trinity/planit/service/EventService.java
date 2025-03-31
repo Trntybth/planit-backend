@@ -34,6 +34,22 @@ public class EventService {
         return eventRepository.save(newEvent);
     }
 
+    // Update event by its ID
+    public Event updateEvent(String eventId, Event updatedEvent) {
+        // Find the event by ID
+        Event existingEvent = eventRepository.findById(eventId)
+                .orElseThrow(() -> new NoSuchElementException("Event not found with ID: " + eventId));
+
+        // Update the fields of the existing event
+        existingEvent.setName(updatedEvent.getName());
+        existingEvent.setDescription(updatedEvent.getDescription());
+        existingEvent.setLocation(updatedEvent.getLocation());
+        existingEvent.setDate(updatedEvent.getDate());
+
+        // Save the updated event back to the repository
+        return eventRepository.save(existingEvent);
+    }
+
     public void deleteEvent(String eventId) {
         Event existingEvent = eventRepository.findById(eventId).orElseThrow(() ->
                 new NoSuchElementException("Event not found with ID: " + eventId)
