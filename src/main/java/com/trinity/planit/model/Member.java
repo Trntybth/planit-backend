@@ -27,6 +27,7 @@ public class Member extends User {
         // Initialize the eventsList as an empty list
         this.eventsList = new ArrayList<>();  // Initialize as ArrayList<Event>
     }
+
     @JsonProperty("eventsList")
     private List<Event> eventsList;
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class OrganisationService {
@@ -62,6 +63,35 @@ public class OrganisationService {
     }
 
 
+    public Organisation getOrganisationByEmail(String email) {
+        return organisationRepository.findByEmail(email).orElse(null);
+    }
 
+    public Organisation updateOrganisation(String username, Organisation updatedOrganisation) {
+        // Find the existing organisation by username
+        Organisation existingOrganisation = organisationRepository.findByUsername(username);
 
+        // Check if the organisation exists
+        if (existingOrganisation != null) {
+            // Update fields from the updatedOrganisation object
+            existingOrganisation.setName(updatedOrganisation.getName());
+            existingOrganisation.setEmail(updatedOrganisation.getEmail());
+            existingOrganisation.setUserType(updatedOrganisation.getUserType());
+
+            // If eventsCreated has been updated, set it
+            if (updatedOrganisation.getEventsCreated() != null) {
+                existingOrganisation.setEventsCreated(updatedOrganisation.getEventsCreated());
+            }
+
+            // Save the updated organisation with the new details and eventsCreated list
+            return organisationRepository.save(existingOrganisation);
+        }
+
+        // If organisation is not found, return null
+        return null;
+    }
+
+    public Organisation findByUsername(String username) {
+        return organisationRepository.findByUsername(username);
+    }
 }

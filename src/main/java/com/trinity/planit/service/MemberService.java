@@ -1,5 +1,6 @@
 package com.trinity.planit.service;
 
+import com.google.common.io.Files;
 import com.trinity.planit.model.Member;
 import com.trinity.planit.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
+
+
 
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
@@ -28,7 +32,6 @@ public class MemberService {
     public Member addMember(Member member) {
         return memberRepository.save(member);
     }
-
 
 
     public Member updateMember(String username, Member updatedMember) {
@@ -61,7 +64,10 @@ public class MemberService {
         throw new NoSuchElementException("Member not found with username: " + username);
     }
 
-
+    // Use .orElse(null) to return null if no user is found
+    public Member getMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElse(null);
+    }
 
 
 }

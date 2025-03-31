@@ -96,7 +96,7 @@ public class UserService {
         return null; // Return null if not found
     }
 
-    public User getUserByEmail(String email) {
+/*    public User getUserByEmail(String email) {
         // Try to find the member first
         Member member = memberRepository.findByEmail(email);
         if (member != null) {
@@ -111,5 +111,5 @@ public class UserService {
 
         // If no user found, return null (or handle differently if needed)
         return null;
-    }
+    }*/
 }

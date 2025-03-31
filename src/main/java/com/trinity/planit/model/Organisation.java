@@ -19,7 +19,15 @@ import java.util.List;
 
     public class Organisation extends User {
 
-        @JsonProperty("eventsCreated")
+    public List<Event> getEventsCreated() {
+        return eventsCreated;
+    }
+
+    public void setEventsCreated(List<Event> eventsCreated) {
+        this.eventsCreated = eventsCreated;
+    }
+
+    @JsonProperty("eventsCreated")
         private List<Event> eventsCreated;
 
         // Google auth constructor to create Organisation object using Google Sign-In info
@@ -34,16 +42,5 @@ import java.util.List;
             this.eventsCreated = new ArrayList<>();  // Initialize as ArrayList<Event>
         }
 
-        // Getter and Setter for eventsCreated
-        public List<Event> getEventsCreated() {
-            return eventsCreated;
-        }
 
-        public void setEventsCreated(List<Event> eventsCreated) {
-            this.eventsCreated = eventsCreated;
-        }
-
-    private String generateUsername(String email) {
-        return email != null ? email.split("@")[0] : "guest";
-    }
-    }
+}

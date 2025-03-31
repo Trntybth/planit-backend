@@ -31,6 +31,10 @@ public abstract class User {
     @JsonProperty("email")
     private String email;
 
+    public String getUserType() {
+        return userType;
+    }
+
     @JsonProperty("userType")
     private String userType;
 

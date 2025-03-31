@@ -30,21 +30,19 @@ public class Event {
     private String location;
 
     @JsonProperty("creator")
-    private Organisation creator;
+    private String creator;
 
     @JsonProperty("date")
     private String date;
 
-    @JsonProperty("attendees")
-    private List<Member> attendees;
 
-    public Event(String name, String description, String location, Organisation creator, String date) {
+    public Event(String name, String description, String location, String creator, String date) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.creator = creator;
         this.date = date;
-        this.attendees = new ArrayList<>(); // Initialize with an empty ArrayList
+
     }
 
 
@@ -56,11 +54,11 @@ public class Event {
         this.date = date;
     }
 
-    public Organisation getCreator() {
+    public String getCreator() {
         return creator;
     }
 
-    public void setCreator(Organisation creator) {
+    public void setCreator(String creator) {
         this.creator = creator;
     }
 
@@ -86,10 +84,6 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Member> getAttendees() {
-        return attendees;
     }
 
 

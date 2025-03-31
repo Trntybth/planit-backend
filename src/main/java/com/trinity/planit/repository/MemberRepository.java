@@ -5,6 +5,7 @@ import com.trinity.planit.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberRepository extends MongoRepository<Member, String> {
     List<Member> findByName(String name);
@@ -14,8 +15,10 @@ public interface MemberRepository extends MongoRepository<Member, String> {
 
     Member findByUsername(String username);
 
-    Member findByEmail(String email);
 
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
+
+    Optional<Member> findByEmail(String email);
+
 }
