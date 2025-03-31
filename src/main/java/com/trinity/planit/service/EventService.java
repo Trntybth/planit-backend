@@ -15,6 +15,10 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
+    public Event getEventById(String eventId) {
+        return eventRepository.findById(eventId).orElse(null);
+    }
+
     // Retrieve an event by its name
     public Event getEventByName(String name) {
         Optional<Event> eventOptional = eventRepository.findByName(name);

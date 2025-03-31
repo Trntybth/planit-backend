@@ -17,6 +17,14 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    // Endpoint to retrieve an event by its ID
+    @GetMapping("/id/{eventId}")
+    public ResponseEntity<Event> getEventById(@PathVariable String eventId) {
+        Event event = eventService.getEventById(eventId);
+        return event != null ? ResponseEntity.ok(event) : ResponseEntity.notFound().build();
+    }
+
+
     // Endpoint to retrieve an event by its name
     @GetMapping("/{eventName}")
     public ResponseEntity<Event> getEventByName(@PathVariable String eventName) {
