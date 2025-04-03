@@ -56,4 +56,14 @@ public class EventService {
         );
         eventRepository.delete(existingEvent);  // Deletes the event from the repository
     }
+
+    public List<Event> getEventsByEmail(String email) {
+        // Assuming the Event entity has a 'creator' field that stores the creator's email
+        return eventRepository.findByCreatorEmail(email);
+    }
+
+    public Event saveEvent(Event event) {
+        return eventRepository.save(event);
+    }
+
 }

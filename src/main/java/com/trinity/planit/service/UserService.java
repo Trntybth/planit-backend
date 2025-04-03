@@ -1,5 +1,6 @@
 package com.trinity.planit.service;
 
+import com.trinity.planit.model.ApiResponse;
 import com.trinity.planit.model.Member;
 import com.trinity.planit.model.Organisation;
 import com.trinity.planit.model.User;
@@ -7,10 +8,13 @@ import com.trinity.planit.repository.MemberRepository;
 import com.trinity.planit.repository.OrganisationRepository;
 import com.trinity.planit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -96,20 +100,22 @@ public class UserService {
         return null; // Return null if not found
     }
 
-/*    public User getUserByEmail(String email) {
-        // Try to find the member first
-        Member member = memberRepository.findByEmail(email);
-        if (member != null) {
-            return member;  // Return member if found
+    public String getUserTypeByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email); // Check User
+
+        if (userOptional.isPresent()) {
+            return userOptional.get().getUserType(); // Return User's type
         }
 
-        // If no member, try to find the organisation
-        Organisation organisation = organisationRepository.findByEmail(email);
-        if (organisation != null) {
-            return organisation;  // Return organisation if found
+        // Check if it's an Organisation (if they're stored in a separate repository)
+        Optional<Organisation> organisationOptional = organisationRepository.findByEmail(email);
+        if (organisationOptional.isPresent()) {
+            return "Organisation"; // Return "Organisation" if found
         }
 
-        // If no user found, return null (or handle differently if needed)
-        return null;
-    }*/
+        return "User not found"; // Default case if neither found
+    }
+
 }
+
+

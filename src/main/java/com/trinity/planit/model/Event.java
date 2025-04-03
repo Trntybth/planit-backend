@@ -1,22 +1,21 @@
 package com.trinity.planit.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "events")
 @JsonInclude(JsonInclude.Include.NON_NULL) // Pre
 public class Event {
+
     @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId id;
 
     @JsonProperty("name")
@@ -29,20 +28,24 @@ public class Event {
 
     private String location;
 
-    @JsonProperty("creator")
-    private String creator;
+    @JsonProperty("creatorEmail")
+    private String creatorEmail;
 
     @JsonProperty("date")
     private String date;
 
 
-    public Event(String name, String description, String location, String creator, String date) {
+    public Event(String name, String description, String location, String creatorEmail, String date) {
         this.name = name;
         this.description = description;
         this.location = location;
-        this.creator = creator;
+        this.creatorEmail = creatorEmail;
         this.date = date;
 
+    }
+
+    public ObjectId getId() {
+        return id;
     }
 
 
@@ -54,12 +57,12 @@ public class Event {
         this.date = date;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getCreatorEmail() {
+        return creatorEmail;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setCreatorEmail(String creatorEmail) {
+        this.creatorEmail = creatorEmail;
     }
 
     public String getLocation() {

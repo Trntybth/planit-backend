@@ -1,9 +1,13 @@
 package com.trinity.planit.service;
 
+import com.trinity.planit.model.Event;
 import com.trinity.planit.model.Organisation;
+import com.trinity.planit.repository.EventRepository;
 import com.trinity.planit.repository.OrganisationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -21,7 +25,7 @@ public class OrganisationService {
         return organisationRepository.findByName(name);
     }
 
-
+    EventRepository eventRepository;
 
     public Organisation addOrganisation(Organisation organisation) {
         return organisationRepository.save(organisation);
@@ -63,9 +67,6 @@ public class OrganisationService {
     }
 
 
-    public Organisation getOrganisationByEmail(String email) {
-        return organisationRepository.findByEmail(email).orElse(null);
-    }
 
     public Organisation updateOrganisation(String username, Organisation updatedOrganisation) {
         // Find the existing organisation by username
@@ -94,4 +95,34 @@ public class OrganisationService {
     public Organisation findByUsername(String username) {
         return organisationRepository.findByUsername(username);
     }
+
+
+    public void saveOrganisation(Organisation organisation) {
+        organisationRepository.save(organisation);
+    }
+
+    public Organisation getOrganisationByEmail(String email) {
+        return organisationRepository.findByEmail(email).orElse(null);
+    }
+
+    public void updateEventInEventsList(String email, String eventId, Event updatedEvent) {
+        // Find the organisation by email
+        Organisation organisation = organisationRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Organisation not found with email: " + email));
+
+        // Find the event by eventId within the eventsCreated list
+        List<Event> eventsCreated = organisation.getEventsCreated();
+        for (int i = 0; i < eventsCreated.size(); i++) {
+            Event existingEvent = eventsCreated.get(i);
+            if (existingEvent.getId().equals(eventId)) {
+                // Update the event within the list
+                eventsCreated.set(i, updatedEvent);
+                break;
+            }
+        }
+
+        // Save the updated organisation
+        organisationRepository.save(organisation);
+    }
+
 }

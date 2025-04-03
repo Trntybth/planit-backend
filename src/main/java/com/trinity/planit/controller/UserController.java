@@ -1,5 +1,6 @@
 package com.trinity.planit.controller;
 
+import com.trinity.planit.model.ApiResponse;
 import com.trinity.planit.model.Member;
 import com.trinity.planit.model.Organisation;
 import com.trinity.planit.model.User;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
@@ -117,4 +119,19 @@ public class UserController {
         response.put("data", data);
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/email/{email}/usertype")
+    public ResponseEntity<String> getUserTypeByEmail(@PathVariable String email) {
+        String userType = userService.getUserTypeByEmail(email);  // Fetch user type by email
+        if (userType != null) {
+            return ResponseEntity.ok(userType); // Return the user type as plain string
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"); // Return a plain string error message
+        }
+    }
+
+
+
+
+
 }
