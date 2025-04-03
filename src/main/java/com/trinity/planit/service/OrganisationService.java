@@ -7,15 +7,16 @@ import com.trinity.planit.repository.OrganisationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class OrganisationService {
     @Autowired
     private OrganisationRepository organisationRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     public List<Organisation> getAllOrganisations() {
         return organisationRepository.findAll();
@@ -25,47 +26,9 @@ public class OrganisationService {
         return organisationRepository.findByName(name);
     }
 
-    EventRepository eventRepository;
-
     public Organisation addOrganisation(Organisation organisation) {
         return organisationRepository.save(organisation);
     }
-
-    public Organisation getOrganisationByUsername(String username) {
-        return organisationRepository.findByUsername(username);
-    }
-
-    public Organisation updateOrganisationByUsername(String username, Organisation updatedOrganisation) {
-        Organisation existingOrganisation = organisationRepository.findByUsername(username);
-
-        if (existingOrganisation == null) {
-            throw new NoSuchElementException("Organisation not found with username: " + username);
-        }
-
-        boolean updated = false;
-
-        // Update name if provided
-        if (updatedOrganisation.getName() != null && !updatedOrganisation.getName().isBlank()) {
-            existingOrganisation.setName(updatedOrganisation.getName());
-            updated = true;
-        }
-
-
-        // Update contactEmail if provided
-        if (updatedOrganisation.getEmail() != null && !updatedOrganisation.getEmail().isBlank()) {
-            existingOrganisation.setEmail(updatedOrganisation.getEmail());
-            updated = true;
-        }
-
-
-        // Save and return updated organisation if any update occurred
-        if (updated) {
-            return organisationRepository.save(existingOrganisation);
-        } else {
-            throw new IllegalArgumentException("No valid fields provided for update.");
-        }
-    }
-
 
 
     public Organisation updateOrganisation(String username, Organisation updatedOrganisation) {
@@ -79,12 +42,7 @@ public class OrganisationService {
             existingOrganisation.setEmail(updatedOrganisation.getEmail());
             existingOrganisation.setUserType(updatedOrganisation.getUserType());
 
-            // If eventsCreated has been updated, set it
-            if (updatedOrganisation.getEventsCreated() != null) {
-                existingOrganisation.setEventsCreated(updatedOrganisation.getEventsCreated());
-            }
-
-            // Save the updated organisation with the new details and eventsCreated list
+            // Save the updated organisation with the new details
             return organisationRepository.save(existingOrganisation);
         }
 
@@ -92,9 +50,6 @@ public class OrganisationService {
         return null;
     }
 
-    public Organisation findByUsername(String username) {
-        return organisationRepository.findByUsername(username);
-    }
 
 
     public void saveOrganisation(Organisation organisation) {
@@ -105,24 +60,5 @@ public class OrganisationService {
         return organisationRepository.findByEmail(email).orElse(null);
     }
 
-    public void updateEventInEventsList(String email, String eventId, Event updatedEvent) {
-        // Find the organisation by email
-        Organisation organisation = organisationRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Organisation not found with email: " + email));
-
-        // Find the event by eventId within the eventsCreated list
-        List<Event> eventsCreated = organisation.getEventsCreated();
-        for (int i = 0; i < eventsCreated.size(); i++) {
-            Event existingEvent = eventsCreated.get(i);
-            if (existingEvent.getId().equals(eventId)) {
-                // Update the event within the list
-                eventsCreated.set(i, updatedEvent);
-                break;
-            }
-        }
-
-        // Save the updated organisation
-        organisationRepository.save(organisation);
-    }
 
 }

@@ -101,21 +101,21 @@ public class UserService {
     }
 
     public String getUserTypeByEmail(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email); // Check User
-
-        if (userOptional.isPresent()) {
-            return userOptional.get().getUserType(); // Return User's type
+        // Check if the email belongs to a Member
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+        if (memberOptional.isPresent()) {
+            return "Member";  // Return "Member" if found in the MemberRepository
         }
 
-        // Check if it's an Organisation (if they're stored in a separate repository)
+        // Check if the email belongs to an Organisation
         Optional<Organisation> organisationOptional = organisationRepository.findByEmail(email);
         if (organisationOptional.isPresent()) {
-            return "Organisation"; // Return "Organisation" if found
+            return "Organisation";  // Return "Organisation" if found in the OrganisationRepository
         }
 
-        return "User not found"; // Default case if neither found
+        // Default case if neither Member nor Organisation is found
+        return "User not found";
     }
-
 }
 
 

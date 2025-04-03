@@ -127,11 +127,8 @@ public class UserController {
             return ResponseEntity.ok(userType); // Return the user type as plain string
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"); // Return a plain string error message
+
+
         }
     }
-
-
-
-
-
 }

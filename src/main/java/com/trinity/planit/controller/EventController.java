@@ -55,26 +55,8 @@ public class EventController {
         // Step 1: Save the event
         Event savedEvent = eventService.saveEvent(event); // Save event to the database
 
-        // Step 2: Retrieve the organisation using the event's creator's email
-        Organisation organisation = organisationService.getOrganisationByEmail(event.getCreatorEmail());
-
-        if (organisation != null) {
-            // Step 3: Check if the event is already in the list to avoid duplicates
-            if (!organisation.getEventsCreated().contains(savedEvent)) {
-                System.out.println("Event added to organisation: " + savedEvent.getName());
-                organisation.getEventsCreated().add(savedEvent); // Add event to the organisation's events list
-            }
-
-            // Step 4: Save the updated organisation
-            organisationService.saveOrganisation(organisation);
-
-            // Step 5: Return the created event in the response with a status 201
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
-        }
-
-        // Step 6: Return a 404 if the organisation was not found with an informative message
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Organisation not found with creator email: " + event.getCreatorEmail());
+        // Step 2: Return the created event in the response with a status 201
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
     }
 
     // PUT method to update an existing event
