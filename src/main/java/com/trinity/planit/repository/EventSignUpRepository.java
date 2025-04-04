@@ -19,5 +19,10 @@ public interface EventSignUpRepository extends MongoRepository<EventSignUp, Obje
     // Find all sign-ups for a member with signup status as true
     List<EventSignUp> findByMemberEmailAndSignupTrue(String memberEmail);
 
+    boolean existsByMemberEmailAndEventIdAndSignupTrue(String memberEmail, String eventId);
+
+    Optional<EventSignUp> findByMemberEmailAndEventIdAndSignupTrue(String memberEmail, ObjectId eventId);
+
+
 
 }

@@ -31,4 +31,9 @@ public class EventSignUpService {
 
         return signUps;
     }
+
+    public boolean isAlreadySignedUp(String memberEmail, String eventId) {
+        return eventSignUpRepository.existsByMemberEmailAndEventIdAndSignupTrue(memberEmail, eventId);
+    }
+
 }

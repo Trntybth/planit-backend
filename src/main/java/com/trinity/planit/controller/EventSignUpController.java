@@ -2,6 +2,7 @@ package com.trinity.planit.controller;
 
 import com.trinity.planit.model.Event;
 import com.trinity.planit.model.EventSignUp;
+import com.trinity.planit.model.SignUpRequest;
 import com.trinity.planit.repository.EventRepository;
 import com.trinity.planit.repository.EventSignUpRepository;
 import com.trinity.planit.service.EventSignUpService;
@@ -55,98 +56,80 @@ public class EventSignUpController {
         return ResponseEntity.ok(signUps);
     }
 
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUpForEvent(@RequestParam String memberEmail, @RequestParam String eventId, @RequestBody SignUpRequest signUpRequest) {
+        logger.debug("Signup request: memberEmail={}, eventId={}, signup={}", memberEmail, eventId, signUpRequest.isSignup());
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<String> signUpForEvent(@RequestParam String memberEmail, @RequestParam String eventId) {
-
-        try {
-            // Validate eventId format
-            if (!ObjectId.isValid(eventId)) {
-                logger.warn("Invalid event ID format: {}", eventId);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid event ID format.");
-            }
-
-            ObjectId eventObjectId = new ObjectId(eventId);
-            logger.debug("Parsed eventId as ObjectId: {}", eventObjectId);
-            String eventIdStr = eventObjectId.toHexString();
-
-            // ✅ Fetch the event from the database
-            Optional<Event> event = eventRepository.findById(String.valueOf(eventObjectId));
-            if (event.isPresent()) {
-
-                // Check if the member is already signed up
-                Optional<EventSignUp> existingSignup = eventSignUpRepository.findByMemberEmailAndEventId(memberEmail, eventObjectId);
-                if (existingSignup.isPresent()) {
-                    logger.info("User already signed up: {}", memberEmail);
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You are already signed up for this event.");
-                }
-
-                // Create and save signup
-                EventSignUp eventSignup = new EventSignUp();
-                eventSignup.setMemberEmail(memberEmail);
-                eventSignup.setEventId(eventObjectId); // Save eventId as a string in the database
-                eventSignup.setSignup(true);
-                eventSignUpRepository.save(eventSignup);
-
-                return ResponseEntity.ok("Signed up successfully.");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found.");
-            }
-
-        } catch (Exception e) {
-            logger.error("Error during sign-up", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while processing the signup.");
-        }
-    }
-
-    @PostMapping("/un-sign-up")
-    public ResponseEntity<String> unSignUpFromEvent(@RequestParam String memberEmail, @RequestParam String eventId) {
-        logger.debug("Received un-sign-up request with memberEmail: {} and eventId: {}", memberEmail, eventId);
-
-        // Convert eventId from String to ObjectId for MongoDB query
-        ObjectId eventObjectId;
-        try {
-            eventObjectId = new ObjectId(eventId);  // Convert eventId to ObjectId
-            logger.debug("Parsed eventId as ObjectId: {}", eventObjectId);
-        } catch (IllegalArgumentException e) {
+        if (!ObjectId.isValid(eventId)) {
             logger.warn("Invalid event ID format: {}", eventId);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid event ID format.");
         }
 
-        try {
-            // Log what the query is attempting to fetch from the database
-            logger.debug("Attempting to find signup with memberEmail: {} and eventId: {}", memberEmail, eventObjectId);
+        ObjectId eventObjectId = new ObjectId(eventId);
 
-            // Query MongoDB with memberEmail and eventId (ObjectId)
-            Optional<EventSignUp> eventSignup = eventSignUpRepository.findByMemberEmailAndEventId(memberEmail, eventObjectId);
+        Optional<EventSignUp> existingSignupOpt = eventSignUpRepository.findByMemberEmailAndEventId(memberEmail, eventObjectId);
 
-            // Log query result
-            if (eventSignup.isPresent()) {
-                logger.debug("Found event signup: {}", eventSignup.get());
+        EventSignUp eventSignup;
+
+        if (existingSignupOpt.isPresent()) {
+            eventSignup = existingSignupOpt.get();
+
+            if (eventSignup.isSignup()) {
+                logger.warn("User already signed up: {}", memberEmail);
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Already signed up.");
             } else {
-                logger.warn("No signup found for memberEmail: {} and eventId: {}", memberEmail, eventObjectId);
+                eventSignup.setSignup(true);
+                eventSignUpRepository.save(eventSignup);
+                logger.info("Signup reactivated for member: {}", memberEmail);
+                return ResponseEntity.ok("Successfully reactivated your signup.");
             }
 
-            if (eventSignup.isPresent()) {
-                // If the signup exists, update the signup status to false (un-sign)
-                EventSignUp signup = eventSignup.get();
-                logger.debug("Found event signup: {}", signup);
-
-                // Un-sign the member (set signup to false)
-                signup.setSignup(false);
-                eventSignUpRepository.save(signup);
-                logger.info("Successfully updated the signup status for member: {} to false", memberEmail);
-
-                return ResponseEntity.ok("Un-signed up successfully.");
-            } else {
-                logger.warn("No signup found for memberEmail: {} and eventId: {}", memberEmail, eventId);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You are not signed up for this event.");
-            }
-        } catch (Exception e) {
-            logger.error("Error during un-sign-up for memberEmail: {} and eventId: {}: {}", memberEmail, eventId, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing the un-sign up request.");
+        } else {
+            eventSignup = new EventSignUp(memberEmail, eventObjectId, true);
+            eventSignUpRepository.save(eventSignup);
+            logger.info("Signup successful for member: {}", memberEmail);
+            return ResponseEntity.ok("Successfully signed up.");
         }
     }
+
+
+    @PostMapping("/un-sign-up")
+    public ResponseEntity<String> unSignUpFromEvent(@RequestParam String memberEmail, @RequestParam String eventId) {
+        logger.debug("Received un-sign-up request for memberEmail: {} and eventId: {}", memberEmail, eventId);
+
+        if (!ObjectId.isValid(eventId)) {
+            logger.warn("Invalid event ID format: {}", eventId);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid event ID format.");
+        }
+
+        ObjectId eventObjectId = new ObjectId(eventId);
+
+        try {
+            // Find the signup in the database explicitly matching memberEmail and eventId, and signup=true
+            Optional<EventSignUp> eventSignupOpt = eventSignUpRepository
+                    .findByMemberEmailAndEventIdAndSignupTrue(memberEmail, eventObjectId);
+
+            if (eventSignupOpt.isPresent()) {
+                EventSignUp eventSignup = eventSignupOpt.get();
+
+                // Clearly set signup to false and save
+                eventSignup.setSignup(false);
+                eventSignUpRepository.save(eventSignup);
+
+                logger.info("Successfully un-signed up member: {} for event: {}", memberEmail, eventId);
+                return ResponseEntity.ok("You have successfully un-signed up.");
+            } else {
+                logger.warn("Signup not found or already un-signed up for member: {}, eventId: {}", memberEmail, eventId);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Signup not found or already un-signed up.");
+            }
+
+        } catch (Exception e) {
+            logger.error("Error while un-signing up for memberEmail: {}, eventId: {}", memberEmail, eventId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing your un-sign up request.");
+        }
+    }
+
 
     @GetMapping("/signed-up-events")
     public ResponseEntity<List<Event>> getSignedUpEvents(@RequestParam String memberEmail) {

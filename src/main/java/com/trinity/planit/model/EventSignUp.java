@@ -20,6 +20,11 @@ public class EventSignUp {
     private ObjectId eventId;  // Change this to String
     private boolean signup;  // true for signed up, false for not signed up
 
+    public EventSignUp(String memberEmail, ObjectId eventId, boolean signup) {
+        this.memberEmail = memberEmail;
+        this.eventId = eventId;
+        this.signup = signup;
+    }
     // Getters and setters
 
     public ObjectId getEventId() {
