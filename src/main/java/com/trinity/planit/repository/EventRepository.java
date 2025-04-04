@@ -14,6 +14,3 @@ public interface EventRepository extends MongoRepository<Event, String> {
     List<Event> findByCreatorEmail(String email);
 
 }
-
-
-

@@ -29,11 +29,6 @@ public class EventService {
         return eventRepository.findAll();  // Retrieves all events from the database
     }
 
-    public Event createEvent(Event newEvent) {
-        // Save the new event to the repository (MongoDB)
-        return eventRepository.save(newEvent);
-    }
-
     // Update event by its ID
     public Event updateEvent(String eventId, Event updatedEvent) {
         // Find the event by ID
